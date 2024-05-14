@@ -4,6 +4,7 @@ import { AppService } from './app.service'
 import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GenresModule } from './genres/genres.module'
+import { CategoriesModule } from './categories/categories.module'
 
 @Module({
     imports: [
@@ -22,6 +23,7 @@ import { GenresModule } from './genres/genres.module'
             }),
         }),
         GenresModule,
+        CategoriesModule,
     ],
     controllers: [AppController],
     providers: [AppService],
