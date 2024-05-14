@@ -3,6 +3,7 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { GenresModule } from './genres/genres.module'
 
 @Module({
     imports: [
@@ -15,10 +16,12 @@ import { TypeOrmModule } from '@nestjs/typeorm'
                 database: process.env.DB_DATABASE,
                 username: process.env.DB_USERNAME,
                 password: process.env.DB_PASSWORD,
+                autoLoadEntities: true,
                 synchronize: true,
-                dropSchema: true
-            })
-        })
+                dropSchema: true,
+            }),
+        }),
+        GenresModule,
     ],
     controllers: [AppController],
     providers: [AppService],
