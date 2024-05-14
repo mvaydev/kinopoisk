@@ -31,7 +31,10 @@ export class CountriesController {
     }
 
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateCountryDto: UpdateCountryDto) {
+    update(
+        @Param('id') id: string,
+        @Body() updateCountryDto: UpdateCountryDto,
+    ) {
         return this.countriesService.update(id, updateCountryDto)
     }
 

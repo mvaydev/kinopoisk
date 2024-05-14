@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
+import {
+    BadRequestException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common'
 import { CreateGenreDto } from './dto/create-genre.dto'
 import { UpdateGenreDto } from './dto/update-genre.dto'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -9,14 +13,16 @@ import { Repository } from 'typeorm'
 export class GenresService {
     constructor(
         @InjectRepository(Genre)
-        private readonly genreRepository: Repository<Genre>
+        private readonly genreRepository: Repository<Genre>,
     ) {}
 
     async create(createGenreDto: CreateGenreDto) {
-        const candidate = await this.genreRepository.findOneBy({ id: createGenreDto.id })
-        if(candidate) {
+        const candidate = await this.genreRepository.findOneBy({
+            id: createGenreDto.id,
+        })
+        if (candidate) {
             throw new BadRequestException({
-                message: 'Genre with such ID already exists'
+                message: 'Genre with such ID already exists',
             })
         }
 
@@ -35,14 +41,14 @@ export class GenresService {
 
     async findOne(id: string) {
         const genre = await this.genreRepository.findOneBy({ id })
-        if(!genre) throw new NotFoundException()
+        if (!genre) throw new NotFoundException()
 
         return genre
     }
 
     async update(id: string, updateGenreDto: UpdateGenreDto) {
         const genre = await this.genreRepository.findOneBy({ id })
-        if(!genre) throw new NotFoundException()
+        if (!genre) throw new NotFoundException()
 
         genre.name = updateGenreDto.name
 
@@ -51,7 +57,7 @@ export class GenresService {
 
     async remove(id: string) {
         const genre = await this.genreRepository.findOneBy({ id })
-        if(!genre) throw new NotFoundException()
+        if (!genre) throw new NotFoundException()
 
         this.genreRepository.delete(id)
 
