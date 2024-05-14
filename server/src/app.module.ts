@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GenresModule } from './genres/genres.module'
 import { CategoriesModule } from './categories/categories.module'
+import { CountriesModule } from './countries/countries.module'
 
 @Module({
     imports: [
@@ -24,6 +25,7 @@ import { CategoriesModule } from './categories/categories.module'
         }),
         GenresModule,
         CategoriesModule,
+        CountriesModule
     ],
     controllers: [AppController],
     providers: [AppService],
