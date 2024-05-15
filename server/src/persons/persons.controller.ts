@@ -7,13 +7,12 @@ import {
     Param,
     Delete,
     ParseIntPipe,
-    Query
+    Query,
 } from '@nestjs/common'
 import { PersonsService } from './persons.service'
-import { CreatePersonDto } from './dto/create-person.dto'
-import { UpdatePersonDto } from './dto/update-person.dto'
+import { CreatePersonDto, UpdatePersonDto } from './person.dto'
 import { FindOptionsWhere } from 'typeorm'
-import { Person } from './entities/person.entity'
+import { Person } from './person.entity'
 
 @Controller('persons')
 export class PersonsController {

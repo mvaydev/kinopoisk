@@ -8,8 +8,7 @@ import {
     Delete,
 } from '@nestjs/common'
 import { GenresService } from './genres.service'
-import { CreateGenreDto } from './dto/create-genre.dto'
-import { UpdateGenreDto } from './dto/update-genre.dto'
+import { CreateGenreDto, UpdateGenreDto } from './genre.dto'
 
 @Controller('genres')
 export class GenresController {

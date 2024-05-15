@@ -1,11 +1,11 @@
 import {
     IsAlpha,
-    IsDate,
     IsDateString,
     IsLowercase,
     IsNotEmpty,
     IsUrl,
 } from 'class-validator'
+import { PartialType } from '@nestjs/mapped-types'
 
 export class CreatePersonDto {
     @IsNotEmpty()
@@ -21,3 +21,5 @@ export class CreatePersonDto {
     @IsLowercase()
     countryId: string
 }
+
+export class UpdatePersonDto extends PartialType(CreatePersonDto) {}

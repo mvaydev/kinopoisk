@@ -3,10 +3,9 @@ import {
     Injectable,
     NotFoundException,
 } from '@nestjs/common'
-import { CreateGenreDto } from './dto/create-genre.dto'
-import { UpdateGenreDto } from './dto/update-genre.dto'
+import { CreateGenreDto, UpdateGenreDto } from './genre.dto'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Genre } from './entities/genre.entity'
+import { Genre } from './genre.entity'
 import { Repository } from 'typeorm'
 
 @Injectable()

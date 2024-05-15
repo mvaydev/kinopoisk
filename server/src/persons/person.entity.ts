@@ -1,5 +1,10 @@
-import { Country } from 'src/countries/entities/country.entity'
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Country } from 'src/countries/country.entity'
+import {
+    Column,
+    Entity,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+} from 'typeorm'
 
 @Entity()
 export class Person {
@@ -17,4 +22,5 @@ export class Person {
 
     @ManyToOne(() => Country, (country) => country.persons)
     country: Country
+
 }

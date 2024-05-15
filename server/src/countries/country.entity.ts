@@ -1,5 +1,5 @@
-import { Person } from 'src/persons/entities/person.entity'
-import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm'
+import { Person } from 'src/persons/person.entity'
+import { Column, Entity, ManyToMany, OneToMany, PrimaryColumn } from 'typeorm'
 
 @Entity()
 export class Country {

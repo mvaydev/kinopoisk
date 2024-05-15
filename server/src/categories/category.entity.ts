@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm'
+import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm'
 
 @Entity()
 export class Category {

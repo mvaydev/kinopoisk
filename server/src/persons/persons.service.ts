@@ -3,12 +3,11 @@ import {
     Injectable,
     NotFoundException,
 } from '@nestjs/common'
-import { CreatePersonDto } from './dto/create-person.dto'
-import { UpdatePersonDto } from './dto/update-person.dto'
+import { CreatePersonDto, UpdatePersonDto } from './person.dto'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Person } from './entities/person.entity'
+import { Person } from './person.entity'
 import { Repository } from 'typeorm'
-import { Country } from 'src/countries/entities/country.entity'
+import { Country } from 'src/countries/country.entity'
 import { FindOptionsWhere } from 'typeorm'
 
 @Injectable()
@@ -40,7 +39,6 @@ export class PersonsService {
             })
         }
 
-
         const person = new Person()
         person.name = createPersonDto.name
         person.birth = createPersonDto.birth
@@ -56,7 +54,7 @@ export class PersonsService {
         try {
             const person = await this.personRepository.find({
                 relations: { country: true },
-                where: searchParams
+                where: searchParams,
             })
 
             return person
@@ -81,20 +79,15 @@ export class PersonsService {
         const person = await this.personRepository.findOneBy({ id })
         if (!person) throw new NotFoundException()
 
-        person.name =
-            updatePersonDto.name ?
-            updatePersonDto.name :
-            person.name
+        person.name = updatePersonDto.name ? updatePersonDto.name : person.name
 
-        person.birth =
-            updatePersonDto.birth ?
-            new Date(updatePersonDto.birth) :
-            person.birth
+        person.birth = updatePersonDto.birth
+            ? new Date(updatePersonDto.birth)
+            : person.birth
 
-        person.photoUrl =
-            updatePersonDto.photoUrl ?
-            updatePersonDto.photoUrl :
-            person.photoUrl
+        person.photoUrl = updatePersonDto.photoUrl
+            ? updatePersonDto.photoUrl
+            : person.photoUrl
 
         return await this.personRepository.save(person)
     }
