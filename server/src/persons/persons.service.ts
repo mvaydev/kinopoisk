@@ -9,6 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Person } from './entities/person.entity'
 import { Repository } from 'typeorm'
 import { Country } from 'src/countries/entities/country.entity'
+import { FindOptionsWhere } from 'typeorm'
 
 @Injectable()
 export class PersonsService {
@@ -51,8 +52,17 @@ export class PersonsService {
         return person
     }
 
-    async findAll() {
-        return await this.personRepository.find()
+    async findAll(searchParams: FindOptionsWhere<Person>) {
+        try {
+            const person = await this.personRepository.find({
+                relations: { country: true },
+                where: searchParams
+            })
+
+            return person
+        } catch (e) {
+            throw new NotFoundException()
+        }
     }
 
     async findOne(id: number) {
