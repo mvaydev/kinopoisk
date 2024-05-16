@@ -1,7 +1,10 @@
 import { Country } from 'src/countries/country.entity'
+import { Film } from 'src/film/entities/film.entity'
 import {
     Column,
     Entity,
+    JoinColumn,
+    ManyToMany,
     ManyToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm'
@@ -20,7 +23,10 @@ export class Person {
     @Column('timestamp with time zone')
     birth: Date
 
-    @ManyToOne(() => Country, (country) => country.persons)
-    country: Country
+    @Column()
+    countryId: string
 
+    @ManyToOne(() => Country, (country) => country.persons)
+    @JoinColumn()
+    country: Country
 }
