@@ -1,7 +1,4 @@
 import { Module } from '@nestjs/common'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
-
 import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
@@ -9,6 +6,13 @@ import { GenresModule } from './genres/genres.module'
 import { CategoriesModule } from './categories/categories.module'
 import { CountriesModule } from './countries/countries.module'
 import { PersonsModule } from './persons/persons.module'
+import { FilmModule } from './film/film.module'
+
+import { Film } from './film/entities/film.entity'
+import { Person } from './persons/person.entity'
+import { Country } from './countries/country.entity'
+import { Genre } from './genres/genre.entity'
+import { Category } from './categories/category.entity'
 
 @Module({
     imports: [
@@ -21,16 +25,15 @@ import { PersonsModule } from './persons/persons.module'
                 database: process.env.DB_DATABASE,
                 username: process.env.DB_USERNAME,
                 password: process.env.DB_PASSWORD,
-                autoLoadEntities: true,
                 synchronize: true,
+                entities: [Film, Person, Country, Genre, Category],
             }),
         }),
         GenresModule,
         CategoriesModule,
         CountriesModule,
         PersonsModule,
+        FilmModule,
     ],
-    controllers: [AppController],
-    providers: [AppService],
 })
 export class AppModule {}
