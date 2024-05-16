@@ -19,11 +19,10 @@ export class CountriesService {
         const candidate = await this.countryRepository.findOneBy({
             id: createCountryDto.id,
         })
-        if (candidate) {
+        if (candidate)
             throw new BadRequestException({
                 message: 'Country with such ID already exists',
             })
-        }
 
         const country = new Country()
         country.id = createCountryDto.id
@@ -39,10 +38,15 @@ export class CountriesService {
     }
 
     async findOne(id: string) {
-        const country = await this.countryRepository.findOneBy({ id })
-        if (!country) throw new NotFoundException()
-
-        return country
+        try {
+            return await this.countryRepository.findOneOrFail({
+                where: { id },
+                relations: ['films'],
+                loadEagerRelations: false,
+            })
+        } catch (e) {
+            throw new NotFoundException()
+        }
     }
 
     async update(id: string, updateCountryDto: UpdateCountryDto) {

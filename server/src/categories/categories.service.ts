@@ -19,11 +19,10 @@ export class CategoriesService {
         const candidate = await this.categoryRepository.findOneBy({
             id: createCategoryDto.id,
         })
-        if (candidate) {
+        if (candidate)
             throw new BadRequestException({
                 message: 'Category with such ID already exists',
             })
-        }
 
         const category = new Category()
         category.id = createCategoryDto.id
@@ -39,7 +38,10 @@ export class CategoriesService {
     }
 
     async findOne(id: string) {
-        const category = await this.categoryRepository.findOneBy({ id })
+        const category = await this.categoryRepository.findOne({
+            where: { id },
+            relations: ['films'],
+        })
         if (!category) throw new NotFoundException()
 
         return category
