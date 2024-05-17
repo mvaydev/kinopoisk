@@ -29,4 +29,7 @@ export class Person {
     @ManyToOne(() => Country, (country) => country.persons)
     @JoinColumn()
     country: Country
+
+    @ManyToMany(() => Film, (film) => film.persons)
+    films: Film[]
 }

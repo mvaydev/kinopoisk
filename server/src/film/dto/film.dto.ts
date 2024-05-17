@@ -35,6 +35,15 @@ export class CreateFilmDto {
     @IsAlpha('en-US', { each: true })
     @IsLowercase({ each: true })
     countryIds: string[]
+
+    @IsArray()
+    @IsAlpha('en-US', { each: true })
+    @IsLowercase({ each: true })
+    genreIds: string[]
+
+    @IsArray()
+    @IsInt({ each: true })
+    personIds: number[]
 }
 
 export class UpdateFilmDto extends PartialType(CreateFilmDto) {}

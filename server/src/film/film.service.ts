@@ -26,9 +26,17 @@ export class FilmService {
             })
 
         const film = this.filmRepository.create(createFilmDto)
-        film.addCountries(createFilmDto.countryIds)
+        film.addRelatedEntities(createFilmDto.countryIds, 'countries')
+        film.addRelatedEntities(createFilmDto.genreIds, 'genres')
+        film.addRelatedEntities(createFilmDto.personIds, 'persons')
 
-        return await this.filmRepository.save(film)
+        try {
+            return await this.filmRepository.save(film)
+        } catch {
+            throw new BadRequestException({
+                message: 'Wrong ids',
+            })
+        }
     }
 
     async findAll() {

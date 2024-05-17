@@ -1,5 +1,7 @@
 import { Category } from 'src/categories/category.entity'
 import { Country } from 'src/countries/country.entity'
+import { Genre } from 'src/genres/genre.entity'
+import { Person } from 'src/persons/person.entity'
 import {
     Column,
     CreateDateColumn,
@@ -41,7 +43,7 @@ export class Film {
     @UpdateDateColumn({ type: 'timestamp with time zone' })
     updatedAt: Date
 
-    @Column()
+    @Column({ select: false })
     categoryId: string
 
     @ManyToOne(() => Category, (category) => category.films, { eager: true })
@@ -55,16 +57,26 @@ export class Film {
     @JoinTable()
     countries: Country[]
 
-    addCountries(countryIds: string[]) {
-        this.countries = []
+    @ManyToMany(() => Genre, (genre) => genre.films, {
+        eager: true,
+        cascade: true,
+    })
+    @JoinTable()
+    genres: Genre[]
 
-        for (let countryId of countryIds) {
-            const candidate = this.countries.find(
-                (country) => country.id === countryId,
-            )
-            if (candidate) continue
+    @ManyToMany(() => Person, (person) => person.films, {
+        eager: true,
+        cascade: true,
+    })
+    @JoinTable()
+    persons: Person[]
 
-            this.countries.push({ id: countryId } as Country)
+    addRelatedEntities(entityIds: (string | number)[], entitiesProp: string) {
+        entityIds = Array.from(new Set(entityIds))
+        this[entitiesProp] = []
+
+        for (let entityId of entityIds) {
+            this[entitiesProp].push({ id: entityId })
         }
     }
 }
