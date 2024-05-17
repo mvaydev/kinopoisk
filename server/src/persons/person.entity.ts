@@ -23,7 +23,7 @@ export class Person {
     @Column('timestamp with time zone')
     birth: Date
 
-    @Column()
+    @Column({ select: false })
     countryId: string
 
     @ManyToOne(() => Country, (country) => country.persons)

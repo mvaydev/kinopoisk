@@ -10,7 +10,7 @@ import {
 import { CategoriesService } from './categories.service'
 import { CreateCategoryDto, UpdateCategoryDto } from './category.dto'
 
-@Controller('categories')
+@Controller('category')
 export class CategoriesController {
     constructor(private readonly categoriesService: CategoriesService) {}
 

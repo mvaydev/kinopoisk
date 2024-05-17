@@ -10,7 +10,7 @@ import {
 import { GenresService } from './genres.service'
 import { CreateGenreDto, UpdateGenreDto } from './genre.dto'
 
-@Controller('genres')
+@Controller('genre')
 export class GenresController {
     constructor(private readonly genresService: GenresService) {}
 

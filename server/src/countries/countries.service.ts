@@ -41,7 +41,7 @@ export class CountriesService {
         try {
             return await this.countryRepository.findOneOrFail({
                 where: { id },
-                relations: ['films'],
+                relations: ['films', 'persons'],
                 loadEagerRelations: false,
             })
         } catch (e) {

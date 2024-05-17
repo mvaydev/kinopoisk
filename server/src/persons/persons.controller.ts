@@ -7,14 +7,11 @@ import {
     Param,
     Delete,
     ParseIntPipe,
-    Query,
 } from '@nestjs/common'
 import { PersonsService } from './persons.service'
 import { CreatePersonDto, UpdatePersonDto } from './person.dto'
-import { FindOptionsWhere } from 'typeorm'
-import { Person } from './person.entity'
 
-@Controller('persons')
+@Controller('person')
 export class PersonsController {
     constructor(private readonly personsService: PersonsService) {}
 
@@ -24,8 +21,8 @@ export class PersonsController {
     }
 
     @Get()
-    async findAll(@Query() searchParams: FindOptionsWhere<Person>) {
-        return await this.personsService.findAll(searchParams)
+    async findAll() {
+        return await this.personsService.findAll()
     }
 
     @Get(':id')

@@ -30,24 +30,16 @@ export class PersonsService {
         return await this.personRepository.save(person)
     }
 
-    async findAll(searchParams: FindOptionsWhere<Person>) {
-        try {
-            const person = await this.personRepository.find({
-                relations: ['country'],
-                where: searchParams,
-            })
-
-            return person
-        } catch (e) {
-            throw new NotFoundException()
-        }
+    async findAll() {
+        return await this.personRepository.find()
     }
 
     async findOne(id: number) {
         try {
             return await this.personRepository.findOneOrFail({
                 where: { id },
-                relations: ['country'],
+                relations: ['country', 'films'],
+                loadEagerRelations: false,
             })
         } catch {
             throw new NotFoundException()

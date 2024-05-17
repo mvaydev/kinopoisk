@@ -35,14 +35,19 @@ export class GenresService {
     }
 
     async findAll() {
-        return await this.genreRepository.find()
+        return await this.genreRepository.find({ loadEagerRelations: false })
     }
 
     async findOne(id: string) {
-        const genre = await this.genreRepository.findOneBy({ id })
-        if (!genre) throw new NotFoundException()
-
-        return genre
+        try {
+            return await this.genreRepository.findOneOrFail({
+                where: { id },
+                relations: ['films'],
+                loadEagerRelations: false,
+            })
+        } catch {
+            throw new NotFoundException()
+        }
     }
 
     async update(id: string, updateGenreDto: UpdateGenreDto) {

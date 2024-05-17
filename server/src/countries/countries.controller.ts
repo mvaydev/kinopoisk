@@ -10,7 +10,7 @@ import {
 import { CountriesService } from './countries.service'
 import { CreateCountryDto, UpdateCountryDto } from './country.dto'
 
-@Controller('countries')
+@Controller('country')
 export class CountriesController {
     constructor(private readonly countriesService: CountriesService) {}
 
