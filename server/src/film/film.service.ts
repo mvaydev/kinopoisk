@@ -1,9 +1,11 @@
 import {
     BadRequestException,
     Injectable,
+    Logger,
     NotFoundException,
 } from '@nestjs/common'
-import { CreateFilmDto, UpdateFilmDto } from './dto/film.dto'
+import { CreateFilmDto } from './dto/create-film.dto'
+import { UpdateFilmDto } from './dto/update-film.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Film } from './entities/film.entity'
 import { Repository } from 'typeorm'
@@ -14,6 +16,8 @@ export class FilmService {
         @InjectRepository(Film)
         private readonly filmRepository: Repository<Film>,
     ) {}
+
+    private readonly logger: Logger = new Logger(FilmService.name)
 
     async create(createFilmDto: CreateFilmDto) {
         const candidate = await this.filmRepository.findOneBy({
@@ -32,7 +36,9 @@ export class FilmService {
 
         try {
             return await this.filmRepository.save(film)
-        } catch {
+        } catch (e) {
+            this.logger.error(e)
+
             throw new BadRequestException({
                 message: 'Wrong ids',
             })
@@ -48,6 +54,26 @@ export class FilmService {
             return await this.filmRepository.findOneByOrFail({ id })
         } catch (e) {
             throw new NotFoundException()
+        }
+    }
+
+    async update(id: number, updateFilmDto: UpdateFilmDto) {
+        const film = await this.filmRepository.findOneBy({ id })
+        if (!film) throw new NotFoundException()
+
+        await this.filmRepository.update(id, updateFilmDto.getExcludedCopy())
+        film.addRelatedEntities(updateFilmDto.countryIds, 'countries')
+        film.addRelatedEntities(updateFilmDto.genreIds, 'genres')
+        film.addRelatedEntities(updateFilmDto.personIds, 'persons')
+
+        try {
+            return await this.filmRepository.save(film)
+        } catch (e) {
+            this.logger.error(e)
+
+            throw new BadRequestException({
+                message: 'Wrong ids',
+            })
         }
     }
 

@@ -9,7 +9,8 @@ import {
     ParseIntPipe,
 } from '@nestjs/common'
 import { FilmService } from './film.service'
-import { CreateFilmDto } from './dto/film.dto'
+import { CreateFilmDto } from './dto/create-film.dto'
+import { UpdateFilmDto } from './dto/update-film.dto'
 
 @Controller('film')
 export class FilmController {
@@ -28,6 +29,14 @@ export class FilmController {
     @Get(':id')
     async findOne(@Param('id', ParseIntPipe) id: number) {
         return await this.filmService.findOne(id)
+    }
+
+    @Patch(':id')
+    async update(
+        @Param('id', ParseIntPipe) id: number,
+        @Body() updateFilmDto: UpdateFilmDto,
+    ) {
+        return await this.filmService.update(id, updateFilmDto)
     }
 
     @Delete(':id')

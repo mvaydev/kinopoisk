@@ -72,6 +72,8 @@ export class Film {
     persons: Person[]
 
     addRelatedEntities(entityIds: (string | number)[], entitiesProp: string) {
+        if (!entityIds) return
+
         entityIds = Array.from(new Set(entityIds))
         this[entitiesProp] = []
 

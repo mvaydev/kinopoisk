@@ -2,7 +2,6 @@
   "name": "kinopoisk",
   "version": "0.0.1",
   "author": "mvaydev <mvaydev@gmail.com>",
-  "private": true,
   "license": "Apache-2.0",
   "scripts": {
     "build": "nest build",

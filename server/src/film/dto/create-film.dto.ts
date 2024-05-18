@@ -1,4 +1,3 @@
-import { PartialType } from '@nestjs/mapped-types'
 import {
     IsAlpha,
     IsArray,
@@ -46,4 +45,3 @@ export class CreateFilmDto {
     personIds: number[]
 }
 
-export class UpdateFilmDto extends PartialType(CreateFilmDto) {}
