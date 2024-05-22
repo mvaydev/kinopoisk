@@ -16,15 +16,6 @@ export class UsersService {
     ) {}
 
     async create(createUserDto: CreateUserDto) {
-        const candidate = await this.userRepository.findOneBy({
-            id: createUserDto.id,
-        })
-
-        if (candidate)
-            throw new BadRequestException({
-                message: 'User with such name already exists',
-            })
-
         const user = this.userRepository.create(createUserDto)
 
         return await this.userRepository.save(user)
@@ -35,11 +26,7 @@ export class UsersService {
     }
 
     async findOne(id: string) {
-        try {
-            return await this.userRepository.findOneByOrFail({ id })
-        } catch (e) {
-            throw new NotFoundException()
-        }
+        return await this.userRepository.findOneBy({ id })
     }
 
     async update(id: string, updateUserDto: UpdateUserDto) {

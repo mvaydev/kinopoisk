@@ -20,9 +20,6 @@ export class User {
     @Column({ default: '' })
     photoUrl: string
 
-    @Column({ nullable: true })
-    confirmLink: string
-
     @CreateDateColumn({ type: 'timestamp with time zone' })
     createdAt: Date
 

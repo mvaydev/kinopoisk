@@ -15,6 +15,7 @@ import { Genre } from './genres/genre.entity'
 import { Category } from './categories/category.entity'
 import { UsersModule } from './users/users.module'
 import { User } from './users/user.entity'
+import { AuthModule } from './auth/auth.module'
 
 @Module({
     imports: [
@@ -37,6 +38,7 @@ import { User } from './users/user.entity'
         PersonsModule,
         FilmModule,
         UsersModule,
+        AuthModule,
     ],
 })
 export class AppModule {}
