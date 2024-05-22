@@ -13,6 +13,8 @@ import { Person } from './persons/person.entity'
 import { Country } from './countries/country.entity'
 import { Genre } from './genres/genre.entity'
 import { Category } from './categories/category.entity'
+import { UsersModule } from './users/users.module'
+import { User } from './users/user.entity'
 
 @Module({
     imports: [
@@ -26,7 +28,7 @@ import { Category } from './categories/category.entity'
                 username: process.env.DB_USERNAME,
                 password: process.env.DB_PASSWORD,
                 synchronize: true,
-                entities: [Film, Person, Country, Genre, Category],
+                entities: [Film, Person, Country, Genre, Category, User],
             }),
         }),
         GenresModule,
@@ -34,6 +36,7 @@ import { Category } from './categories/category.entity'
         CountriesModule,
         PersonsModule,
         FilmModule,
+        UsersModule,
     ],
 })
 export class AppModule {}

@@ -44,4 +44,3 @@ export class CreateFilmDto {
     @IsInt({ each: true })
     personIds: number[]
 }
-
