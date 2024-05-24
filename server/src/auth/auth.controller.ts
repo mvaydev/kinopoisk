@@ -1,6 +1,7 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common'
 import { UsersService } from 'src/users/users.service'
-import { OAuthGuard } from './oauth.guard'
+import { OAuthGuard } from './guards/oauth.guard'
+import { sign } from 'jsonwebtoken'
 
 @Controller('auth')
 export class AuthController {
@@ -12,12 +13,20 @@ export class AuthController {
 
     @Get('callback')
     @UseGuards(OAuthGuard)
-    async callback(@Req() { user }) {
-        return await this.usersService.findOrCreate({
+    callback(@Req() { user }) {
+        this.usersService.findOrCreate({
             id: user.id,
             name: user.displayName,
             email: user.emails[0].value,
             photoUrl: user.photos[0].value,
         })
+
+        return {
+            accessToken: sign(
+                { userId: user.id },
+                process.env.JWT_SECRET,
+                { expiresIn: '15min' }
+            )
+        }
     }
 }
