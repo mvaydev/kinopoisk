@@ -1,6 +1,5 @@
 import { PassportStrategy } from '@nestjs/passport'
 import { Strategy, VerifyCallback, Profile } from 'passport-google-oauth20'
-import { CreateUserDto } from 'src/users/user.dto'
 
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     constructor() {
@@ -18,11 +17,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
         profile: Profile,
         done: VerifyCallback,
     ) {
-        done(null, {
-            id: profile.id,
-            name: profile.displayName,
-            email: profile.emails[0].value,
-            photoUrl: profile.photos[0].value,
-        } as CreateUserDto)
+        done(null, profile)
     }
 }

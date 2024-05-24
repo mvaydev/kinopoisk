@@ -17,7 +17,7 @@ export class User {
     @Column()
     email: string
 
-    @Column({ default: '' })
+    @Column()
     photoUrl: string
 
     @CreateDateColumn({ type: 'timestamp with time zone' })
