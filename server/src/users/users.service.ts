@@ -11,16 +11,16 @@ export class UsersService {
         private readonly userRepository: Repository<User>,
     ) {}
 
-    async findOrCreate(createUserDto: CreateUserDto) {
-        try {
-            return await this.userRepository.findOneByOrFail({
-                id: createUserDto.id,
-            })
-        } catch {
-            const user = this.userRepository.create(createUserDto)
+    async create(createUserDto: CreateUserDto) {
+        if(! await this.userRepository.existsBy({ id: createUserDto.id }))
+            return
 
-            return await this.userRepository.save(user)
-        }
+        const user = this.userRepository.create(createUserDto)
+        this.userRepository.save(user)
+    }
+
+    async exists(id: string) {
+        return await this.userRepository.existsBy({ id })
     }
 
     async findAll() {

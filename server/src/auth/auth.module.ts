@@ -6,6 +6,7 @@ import { OAuthGuard } from './guards/oauth.guard'
 import { PassportModule } from '@nestjs/passport'
 import { JwtAuthGuard } from './guards/jwt.guard'
 import { JwtStrategy } from './strategies/jwt.strategy'
+import { AuthService } from './auth.service'
 
 @Module({
     imports: [
@@ -17,7 +18,8 @@ import { JwtStrategy } from './strategies/jwt.strategy'
         GoogleStrategy,
         JwtStrategy,
         OAuthGuard,
-        JwtAuthGuard
+        JwtAuthGuard,
+        AuthService
     ],
     exports: [JwtAuthGuard]
 })

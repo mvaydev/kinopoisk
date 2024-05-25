@@ -1,11 +1,11 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common'
-import { UsersService } from 'src/users/users.service'
 import { OAuthGuard } from './guards/oauth.guard'
-import { sign } from 'jsonwebtoken'
+import { AuthService } from './auth.service'
+import { JwtAuthGuard } from './guards/jwt.guard'
 
 @Controller('auth')
 export class AuthController {
-    constructor(private readonly usersService: UsersService) {}
+    constructor(private readonly authService: AuthService) {}
 
     @Get('login')
     @UseGuards(OAuthGuard)
@@ -14,19 +14,14 @@ export class AuthController {
     @Get('callback')
     @UseGuards(OAuthGuard)
     callback(@Req() { user }) {
-        this.usersService.findOrCreate({
-            id: user.id,
-            name: user.displayName,
-            email: user.emails[0].value,
-            photoUrl: user.photos[0].value,
-        })
+        this.authService.saveUser(user)
 
-        return {
-            accessToken: sign(
-                { userId: user.id },
-                process.env.JWT_SECRET,
-                { expiresIn: '15min' }
-            )
-        }
+        return this.authService.getTokens(user.id)
+    }
+
+    @Get('test')
+    @UseGuards(JwtAuthGuard)
+    test() {
+        return 'Access allowed'
     }
 }
