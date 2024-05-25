@@ -3,7 +3,7 @@ import { PartialType } from '@nestjs/mapped-types'
 
 export class CreateUserDto {
     @IsNotEmpty()
-    id: string
+    googleId: string
 
     @IsNotEmpty()
     name: string

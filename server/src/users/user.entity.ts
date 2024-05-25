@@ -1,15 +1,19 @@
+import { UUID } from 'crypto'
 import {
     Column,
     CreateDateColumn,
     Entity,
-    PrimaryColumn,
+    PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm'
 
 @Entity()
 export class User {
-    @PrimaryColumn()
-    id: string
+    @PrimaryGeneratedColumn('uuid')
+    id: UUID
+
+    @Column({ unique: true })
+    googleId: string
 
     @Column()
     name: string
