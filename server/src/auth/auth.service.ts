@@ -1,13 +1,18 @@
 import { Injectable } from '@nestjs/common'
-import { UUID } from 'crypto'
 import { sign } from 'jsonwebtoken'
+import { User } from 'src/users/user.entity'
 
 @Injectable()
 export class AuthService {
-    getTokens(userId: UUID) {
+    getTokens(user: User) {
+        const payload = {
+            id: user.id,
+            roles: user.roles,
+        }
+
         return {
-            accessToken: sign({ userId }, process.env.JWT_SECRET, {
-                expiresIn: '15min',
+            accessToken: sign(payload, process.env.JWT_SECRET, {
+                expiresIn: '30d',
             }),
         }
     }

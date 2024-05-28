@@ -25,12 +25,12 @@ export class AuthController {
             photoUrl: profile.photos[0].value,
         })
 
-        return this.authService.getTokens(user.id)
+        return this.authService.getTokens(user)
     }
 
     @Get('test')
     @UseGuards(JwtAuthGuard)
     async test(@Req() req: any) {
-        return await this.usersService.findOne(req.user.userId)
+        return await this.usersService.findOne(req.user.id)
     }
 }
