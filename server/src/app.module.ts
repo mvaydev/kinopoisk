@@ -7,6 +7,7 @@ import { CategoriesModule } from './categories/categories.module'
 import { CountriesModule } from './countries/countries.module'
 import { PersonsModule } from './persons/persons.module'
 import { FilmModule } from './film/film.module'
+import { AuthModule } from './auth/auth.module'
 
 import { Film } from './film/entities/film.entity'
 import { Person } from './persons/person.entity'
@@ -15,7 +16,8 @@ import { Genre } from './genres/genre.entity'
 import { Category } from './categories/category.entity'
 import { UsersModule } from './users/users.module'
 import { User } from './users/user.entity'
-import { AuthModule } from './auth/auth.module'
+import { Role } from './roles/role.entity'
+import { RolesModule } from './roles/roles.module'
 
 @Module({
     imports: [
@@ -29,7 +31,7 @@ import { AuthModule } from './auth/auth.module'
                 username: process.env.DB_USERNAME,
                 password: process.env.DB_PASSWORD,
                 synchronize: true,
-                entities: [Film, Person, Country, Genre, Category, User],
+                entities: [Film, Person, Country, Genre, Category, User, Role],
             }),
         }),
         GenresModule,
@@ -39,6 +41,7 @@ import { AuthModule } from './auth/auth.module'
         FilmModule,
         UsersModule,
         AuthModule,
+        RolesModule,
     ],
 })
 export class AppModule {}

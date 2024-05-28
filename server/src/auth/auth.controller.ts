@@ -8,7 +8,7 @@ import { UsersService } from 'src/users/users.service'
 export class AuthController {
     constructor(
         private readonly authService: AuthService,
-        private readonly usersService: UsersService
+        private readonly usersService: UsersService,
     ) {}
 
     @Get('login')
@@ -22,7 +22,7 @@ export class AuthController {
             googleId: profile.id,
             name: profile.username,
             email: profile.emails[0].value,
-            photoUrl: profile.photos[0].value
+            photoUrl: profile.photos[0].value,
         })
 
         return this.authService.getTokens(user.id)

@@ -1,8 +1,11 @@
 import { UUID } from 'crypto'
+import { Role } from 'src/roles/role.entity'
 import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinTable,
+    ManyToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm'
@@ -29,4 +32,19 @@ export class User {
 
     @UpdateDateColumn({ type: 'timestamp with time zone' })
     updatedAt: Date
+
+    @ManyToMany(() => Role, (role: Role) => role.users)
+    @JoinTable()
+    roles: Role[]
+
+    addRoles(roleIds: string[]) {
+        if (!roleIds) return
+
+        roleIds = Array.from(new Set(roleIds))
+        this.roles = []
+
+        for (let roleId of roleIds) {
+            this.roles.push({ id: roleId } as Role)
+        }
+    }
 }

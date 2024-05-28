@@ -5,9 +5,7 @@ import { UsersService } from 'src/users/users.service'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-    constructor(
-        private readonly usersService: UsersService
-    ) {
+    constructor(private readonly usersService: UsersService) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
@@ -16,10 +14,8 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     }
 
     async validate(payload: any) {
-        if(
-            payload.userId &&
-            await this.usersService.exists(payload.id)
-        ) return payload
+        if (payload.userId && (await this.usersService.exists(payload.id)))
+            return payload
 
         throw new UnauthorizedException()
     }

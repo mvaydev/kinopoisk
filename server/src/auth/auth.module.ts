@@ -9,18 +9,15 @@ import { JwtStrategy } from './strategies/jwt.strategy'
 import { AuthService } from './auth.service'
 
 @Module({
-    imports: [
-        UsersModule,
-        PassportModule,
-    ],
+    imports: [UsersModule, PassportModule],
     controllers: [AuthController],
     providers: [
         GoogleStrategy,
         JwtStrategy,
         OAuthGuard,
         JwtAuthGuard,
-        AuthService
+        AuthService,
     ],
-    exports: [JwtAuthGuard]
+    exports: [JwtAuthGuard],
 })
 export class AuthModule {}

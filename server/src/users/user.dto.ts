@@ -1,4 +1,12 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsUrl } from 'class-validator'
+import {
+    IsAlpha,
+    IsArray,
+    IsEmail,
+    IsLowercase,
+    IsNotEmpty,
+    IsOptional,
+    IsUrl,
+} from 'class-validator'
 import { PartialType } from '@nestjs/mapped-types'
 
 export class CreateUserDto {
@@ -16,4 +24,9 @@ export class CreateUserDto {
     photoUrl?: string
 }
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {}
+export class UpdateUserDto extends PartialType(CreateUserDto) {
+    @IsArray()
+    @IsAlpha('en-US', { each: true })
+    @IsLowercase({ each: true })
+    roleIds: string[]
+}
