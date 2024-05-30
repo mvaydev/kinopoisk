@@ -1,7 +1,6 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common'
 import { OAuthGuard } from './guards/oauth.guard'
 import { AuthService } from './auth.service'
-import { JwtAuthGuard } from './guards/jwt.guard'
 import { UsersService } from 'src/users/users.service'
 
 @Controller('auth')
@@ -26,11 +25,5 @@ export class AuthController {
         })
 
         return this.authService.getTokens(user)
-    }
-
-    @Get('test')
-    @UseGuards(JwtAuthGuard)
-    async test(@Req() req: any) {
-        return await this.usersService.findOne(req.user.id)
     }
 }

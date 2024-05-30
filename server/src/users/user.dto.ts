@@ -25,6 +25,7 @@ export class CreateUserDto {
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
+    @IsOptional()
     @IsArray()
     @IsAlpha('en-US', { each: true })
     @IsLowercase({ each: true })

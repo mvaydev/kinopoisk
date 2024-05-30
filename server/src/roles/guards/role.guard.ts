@@ -16,8 +16,7 @@ export class RoleGuard implements CanActivate {
         if (!roles || roles.length === 0) return true
 
         const user = context.switchToHttp().getRequest().user
-        if (!user?.roles || !Array.isArray(user.roles))
-            return false
+        if (!user?.roles || !Array.isArray(user.roles)) return false
 
         return _.intersection(user.roles, roles).length != 0
     }

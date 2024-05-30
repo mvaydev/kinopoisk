@@ -15,6 +15,8 @@ import { Country } from './countries/country.entity'
 import { Genre } from './genres/genre.entity'
 import { Category } from './categories/category.entity'
 import { UsersModule } from './users/users.module'
+import { RoleGuard } from './roles/guards/role.guard'
+import { APP_GUARD } from '@nestjs/core'
 import { User } from './users/user.entity'
 import { Role } from './roles/role.entity'
 import { RolesModule } from './roles/roles.module'
@@ -42,6 +44,12 @@ import { RolesModule } from './roles/roles.module'
         UsersModule,
         AuthModule,
         RolesModule,
+    ],
+    providers: [
+        {
+            provide: APP_GUARD,
+            useClass: RoleGuard,
+        },
     ],
 })
 export class AppModule {}

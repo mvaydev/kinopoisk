@@ -1,8 +1,8 @@
-import { Reflector } from "@nestjs/core"
-import { RoleGuard } from "./role.guard"
-import { ExecutionContext } from "@nestjs/common"
+import { Reflector } from '@nestjs/core'
+import { RoleGuard } from './role.guard'
+import { ExecutionContext } from '@nestjs/common'
 import { createMock } from '@golevelup/ts-jest'
-import { RolesEnum } from "../roles"
+import { RoleType } from '../roles'
 
 describe('Role Guard', () => {
     let guard: RoleGuard
@@ -18,7 +18,7 @@ describe('Role Guard', () => {
         const context = createMock<ExecutionContext>({
             switchToHttp: () => ({
                 getRequest: () => ({ user: {} }),
-            })
+            }),
         })
         const canActivate = guard.canActivate(context)
 
@@ -30,7 +30,7 @@ describe('Role Guard', () => {
         const context = createMock<ExecutionContext>({
             switchToHttp: () => ({
                 getRequest: () => ({}),
-            })
+            }),
         })
         const canActivate = guard.canActivate(context)
 
@@ -42,7 +42,7 @@ describe('Role Guard', () => {
         const context = createMock<ExecutionContext>({
             switchToHttp: () => ({
                 getRequest: () => ({ user: {} }),
-            })
+            }),
         })
         const canActivate = guard.canActivate(context)
 
@@ -54,9 +54,9 @@ describe('Role Guard', () => {
         const context = createMock<ExecutionContext>({
             switchToHttp: () => ({
                 getRequest: () => ({
-                    user: { roles: '12345' }
+                    user: { roles: '12345' },
                 }),
-            })
+            }),
         })
         const canActivate = guard.canActivate(context)
 
@@ -64,13 +64,13 @@ describe('Role Guard', () => {
     })
 
     it('should return true, if user have guard roles, else - false', () => {
-        reflector.get = () => [RolesEnum.admin]
+        reflector.get = () => [RoleType.ADMIN]
         let context = createMock<ExecutionContext>({
             switchToHttp: () => ({
                 getRequest: () => ({
-                    user: { roles: [RolesEnum.admin] }
+                    user: { roles: [RoleType.ADMIN] },
                 }),
-            })
+            }),
         })
         let canActivate = guard.canActivate(context)
 
@@ -79,9 +79,9 @@ describe('Role Guard', () => {
         context = createMock<ExecutionContext>({
             switchToHttp: () => ({
                 getRequest: () => ({
-                    user: { roles: [RolesEnum.moderator] }
+                    user: { roles: [RoleType.moderator] },
                 }),
-            })
+            }),
         })
         canActivate = guard.canActivate(context)
 
