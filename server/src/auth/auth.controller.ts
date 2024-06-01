@@ -2,7 +2,9 @@ import { Controller, Get, Req, UseGuards } from '@nestjs/common'
 import { OAuthGuard } from './guards/oauth.guard'
 import { AuthService } from './auth.service'
 import { UsersService } from 'src/users/users.service'
+import { Public } from './strategies/jwt.strategy'
 
+@Public()
 @Controller('auth')
 export class AuthController {
     constructor(
@@ -10,16 +12,16 @@ export class AuthController {
         private readonly usersService: UsersService,
     ) {}
 
-    @Get('login')
     @UseGuards(OAuthGuard)
+    @Get('login')
     login() {}
 
-    @Get('callback')
     @UseGuards(OAuthGuard)
+    @Get('callback')
     async callback(@Req() { user: profile }) {
         const user = await this.usersService.findOrCreate({
             googleId: profile.id,
-            name: profile.username,
+            name: profile.displayName,
             email: profile.emails[0].value,
             photoUrl: profile.photos[0].value,
         })

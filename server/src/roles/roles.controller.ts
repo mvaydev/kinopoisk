@@ -34,12 +34,10 @@ export class RolesController {
         if (!user) throw new BadRequestException('User not found')
         if (!role) throw new BadRequestException('Role not found')
 
-        try {
-            role.users.push(user)
-            return await this.roleRepository.save(role)
-        } catch {
-            throw new BadRequestException('User already have this role')
-        }
+        if (role.users && role.users.length > 0) role.users.push(user)
+        else role.users = [user]
+
+        return await this.roleRepository.save(role)
     }
 
     @Get()
