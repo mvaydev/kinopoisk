@@ -36,15 +36,4 @@ export class User {
     @ManyToMany(() => Role, (role: Role) => role.users)
     @JoinTable()
     roles: Role[]
-
-    addRoles(roleIds: string[]) {
-        if (!roleIds) return
-
-        roleIds = Array.from(new Set(roleIds))
-        this.roles = []
-
-        for (let roleId of roleIds) {
-            this.roles.push({ id: roleId } as Role)
-        }
-    }
 }

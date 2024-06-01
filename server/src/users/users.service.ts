@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { User } from './user.entity'
 import { Repository } from 'typeorm'
 import { UUID } from 'crypto'
+import { cloneDeep } from 'lodash'
 
 @Injectable()
 export class UsersService {
@@ -20,10 +21,16 @@ export class UsersService {
      * Create user, if he not created later or returns new user
      */
     async findOrCreate(createUserDto: CreateUserDto) {
-        const candidate = await this.userRepository.findOneBy({
-            googleId: createUserDto.googleId,
+        const candidate = await this.userRepository.findOne({
+            where: { googleId: createUserDto.googleId },
+            relations: ['roles'],
         })
-        if (candidate) return candidate
+        if (candidate) {
+            const mappedUser: any = cloneDeep(candidate)
+            mappedUser.roles = candidate.roles.map((role) => role.id)
+
+            return mappedUser
+        }
 
         const user = this.userRepository.create(createUserDto)
         return await this.userRepository.save(user)
@@ -34,6 +41,13 @@ export class UsersService {
      */
     async exists(googleId: string) {
         return await this.userRepository.existsBy({ googleId })
+    }
+
+    /**
+     * Checks user in database by internal ID
+     */
+    async existsById(id: UUID) {
+        return await this.userRepository.existsBy({ id })
     }
 
     async findAll() {
@@ -49,15 +63,8 @@ export class UsersService {
         if (!user) throw new NotFoundException()
 
         await this.userRepository.update(id, updateUserDto)
-        user.addRoles(updateUserDto.roleIds)
 
-        try {
-            return await this.userRepository.save(user)
-        } catch (e) {
-            throw new BadRequestException({
-                message: 'Wrong role IDs',
-            })
-        }
+        return await this.userRepository.findOneBy({ id })
     }
 
     async remove(id: UUID) {

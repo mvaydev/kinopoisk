@@ -79,7 +79,7 @@ describe('Role Guard', () => {
         context = createMock<ExecutionContext>({
             switchToHttp: () => ({
                 getRequest: () => ({
-                    user: { roles: [RoleType.moderator] },
+                    user: { roles: [RoleType.MODERATOR] },
                 }),
             }),
         })
