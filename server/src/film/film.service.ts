@@ -8,7 +8,8 @@ import { CreateFilmDto } from './dto/create-film.dto'
 import { UpdateFilmDto } from './dto/update-film.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Film } from './entities/film.entity'
-import { Repository } from 'typeorm'
+import { In, Repository } from 'typeorm'
+import { GetFilmsDto } from './dto/get-films.dto'
 
 @Injectable()
 export class FilmService {
@@ -45,8 +46,32 @@ export class FilmService {
         }
     }
 
-    async findAll() {
-        return await this.filmRepository.find({ loadEagerRelations: false })
+    async findAll(getFilmsDto: GetFilmsDto) {
+        const OptionalIn = (arr: any[]) => arr && In(arr)
+        const {
+            categories,
+            creationYears,
+            ageLimits,
+            countries,
+            genres
+        } = getFilmsDto
+
+        const films = await this.filmRepository.find({
+            where: {
+                categoryId: OptionalIn(categories),
+                creationYear: OptionalIn(creationYears),
+                ageLimit: OptionalIn(ageLimits),
+                countries: {
+                    id: OptionalIn(countries)
+                },
+                genres: {
+                    id: OptionalIn(genres)
+                },
+            },
+            loadEagerRelations: false
+        })
+
+        return films
     }
 
     async findOne(id: number) {

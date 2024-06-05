@@ -7,10 +7,13 @@ import {
     Param,
     Delete,
     ParseIntPipe,
+    Query,
 } from '@nestjs/common'
 import { FilmService } from './film.service'
+
 import { CreateFilmDto } from './dto/create-film.dto'
 import { UpdateFilmDto } from './dto/update-film.dto'
+import { GetFilmsDto } from './dto/get-films.dto'
 
 import { Roles } from 'src/roles/role.decorator'
 import { RoleType } from 'src/roles/roles'
@@ -28,8 +31,8 @@ export class FilmController {
 
     @Public()
     @Get()
-    async findAll() {
-        return await this.filmService.findAll()
+    async findAll(@Query() getFilmsDto: GetFilmsDto) {
+        return await this.filmService.findAll(getFilmsDto)
     }
 
     @Public()
